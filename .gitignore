@@ -1,1 +1,2 @@
-yarn.lock
+yarn.locknode_modules/
+**/node_modules/
