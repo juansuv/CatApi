@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 import { DatabaseConnection } from './config/database';
 import { CatService } from './services/CatService';
 import { ImageService } from './services/ImageService';
-
+import { UserService } from './services/UserService';
 import { createCatRoutes } from './routes/catRoutes';
 import { createImageRoutes } from './routes/imageRoutes';
-
-
+import { createUserRoutes } from './routes/userRoutes';
+import { corsMiddleware } from './middlewares/cors';
 
 dotenv.config();
 
@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(corsMiddleware);
 
 const catApiKey = process.env.CAT_API_KEY || '';
 const catApiBaseUrl = process.env.CAT_API_BASE_URL || 'https://api.thecatapi.com/v1';
@@ -24,11 +25,11 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/catapi';
 
 const catService = new CatService(catApiKey, catApiBaseUrl);
 const imageService = new ImageService(catApiKey, catApiBaseUrl);
-
-
+const userService = new UserService(jwtSecret);
 
 app.use('/api/cats', createCatRoutes(catService));
 app.use('/api/images', createImageRoutes(imageService));
+app.use('/api/users', createUserRoutes(userService));
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({
