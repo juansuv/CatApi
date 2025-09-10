@@ -11,6 +11,7 @@ const mockedBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
 const mockedJwt = jwt as jest.Mocked<typeof jwt>;
 const mockedUserModel = UserModel as jest.MockedClass<typeof UserModel>;
 
+
 describe('UserService', () => {
   let userService: UserService;
   const mockJwtSecret = 'test-jwt-secret';
@@ -23,7 +24,7 @@ describe('UserService', () => {
   describe('register', () => {
     it('should register a new user successfully', async () => {
       const userData = {
-        username: 'testuser',
+        username: 'testuser2',
         email: 'test@example.com',
         password: 'password123',
         firstName: 'Test',
@@ -45,7 +46,7 @@ describe('UserService', () => {
         })
       };
 
-      mockedUserModel.findOne.mockResolvedValue(null);
+      (mockedUserModel.findOne as jest.Mock).mockResolvedValue(null);
       mockedBcrypt.hash.mockResolvedValue('hashedpassword' as never);
       mockedUserModel.mockImplementation(() => mockUser as any);
       mockedJwt.sign.mockReturnValue('fake-jwt-token' as never);
@@ -73,7 +74,7 @@ describe('UserService', () => {
       };
 
       const existingUser = { _id: 'existing-user' };
-      mockedUserModel.findOne.mockResolvedValue(existingUser as any);
+      (mockedUserModel.findOne as jest.Mock).mockResolvedValue(existingUser as any);
 
       await expect(userService.register(userData)).rejects.toThrow('Username or email already exists');
     });
@@ -97,7 +98,7 @@ describe('UserService', () => {
         updatedAt: new Date()
       };
 
-      mockedUserModel.findOne.mockResolvedValue(mockUser as any);
+      (mockedUserModel.findOne as jest.Mock).mockResolvedValue(mockUser as any);
       mockedBcrypt.compare.mockResolvedValue(true as never);
       mockedJwt.sign.mockReturnValue('fake-jwt-token' as never);
 
@@ -115,7 +116,7 @@ describe('UserService', () => {
         password: 'password123'
       };
 
-      mockedUserModel.findOne.mockResolvedValue(null);
+      (mockedUserModel.findOne as jest.Mock).mockResolvedValue(null);
 
       const result = await userService.login(loginData);
 
@@ -134,7 +135,7 @@ describe('UserService', () => {
         password: 'hashedpassword'
       };
 
-      mockedUserModel.findOne.mockResolvedValue(mockUser as any);
+      (mockedUserModel.findOne as jest.Mock).mockResolvedValue(mockUser as any);
       mockedBcrypt.compare.mockResolvedValue(false as never);
 
       const result = await userService.login(loginData);
