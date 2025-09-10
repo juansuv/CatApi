@@ -2,7 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { DatabaseConnection } from './config/database';
 import { CatService } from './services/CatService';
+import { ImageService } from './services/ImageService';
+
 import { createCatRoutes } from './routes/catRoutes';
+import { createImageRoutes } from './routes/imageRoutes';
+
 
 
 dotenv.config();
@@ -19,9 +23,12 @@ const jwtSecret = process.env.JWT_SECRET || 'fallback-secret-key';
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/catapi';
 
 const catService = new CatService(catApiKey, catApiBaseUrl);
+const imageService = new ImageService(catApiKey, catApiBaseUrl);
+
 
 
 app.use('/api/cats', createCatRoutes(catService));
+app.use('/api/images', createImageRoutes(imageService));
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({
