@@ -163,15 +163,17 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  background: var(--primary-gradient);
   color: white;
   box-shadow: var(--shadow-sm);
+  border: none;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  background: var(--primary-gradient);
   box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  filter: brightness(1.1);
 }
 
 .btn-outline-primary {
