@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
+import { HttpInterceptorService } from './app/services/http-interceptor.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -13,7 +14,11 @@ bootstrapApplication(AppComponent, {
       RouterModule.forRoot(routes),
       HttpClientModule,
       ReactiveFormsModule
-    )
-
+    ),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }
   ]
 }).catch(err => console.error(err));
