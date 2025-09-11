@@ -74,7 +74,7 @@ export class AuthService {
   private loadStoredUser(): void {
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
-    
+
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
