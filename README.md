@@ -14,6 +14,21 @@ Una aplicación full-stack completa desarrollada con **Node.js**, **Express**, *
 - **Integración con The Cat API** externa
 - **Base de datos MongoDB** con Mongoose
 
+### Frontend (Angular + TypeScript)
+- **Arquitectura modular** con componentes standalone
+- **5 vistas completamente funcionales**
+- **Guards de autenticación** para rutas protegidas
+- **Servicios reactivos** con RxJS
+- **Formularios reactivos** con validación
+- **Diseño responsive** con Bootstrap 5
+- **Interceptores HTTP** para manejo de tokens
+- **Pruebas unitarias** con Jasmine/Karma
+
+### DevOps
+- **Dockerfiles** para backend y frontend
+- **Docker Compose** para orquestación completa
+- **Health checks** para monitoreo
+- **Nginx** como proxy reverso en producción
 
 ## 📋 Requisitos Técnicos Cumplidos
 
@@ -21,13 +36,13 @@ Una aplicación full-stack completa desarrollada con **Node.js**, **Express**, *
 - [x] Node.js
 - [x] Express
 - [x] MongoDB
-- [] Angular
+- [x] Angular
 - [x] TypeScript en todo el proyecto
 
 ### ✅ Buenas Prácticas
 - [x] Principios SOLID aplicados
 - [x] Clean Architecture implementada
-- [] Pruebas unitarias (backend y frontend)
+- [x] Pruebas unitarias (backend y frontend)
 - [x] Separación de responsabilidades
 - [x] Manejo de errores consistente
 
@@ -43,10 +58,18 @@ Una aplicación full-stack completa desarrollada con **Node.js**, **Express**, *
   - `POST /api/users/register` - Registro de usuarios
   - `GET /api/users/profile` - Información del usuario autenticado
 
+### ✅ Frontend - Vistas
+- [x] **Vista 1**: Lista desplegable de razas + carrusel de imágenes + tabla completa
+- [x] **Vista 2**: Campo de búsqueda + filtros + tabla interactiva
+- [x] **Vista 3**: Formulario de login con validación
+- [x] **Vista 4**: Formulario de registro completo
+- [x] **Vista 5**: Vista protegida con información del usuario
 
 ### ✅ Características Adicionales
 - [x] Dockerfiles para contenarización
 - [x] Sistema de autenticación completo
+- [x] Interfaz responsive y moderna
+- [x] Manejo de estados de carga y errores
 - [x] Validación de formularios en tiempo real
 - [x] Guards de autenticación
 - [x] Interceptores HTTP
@@ -67,6 +90,7 @@ Una aplicación full-stack completa desarrollada con **Node.js**, **Express**, *
    ```
 
 3. **Acceder a las aplicaciones**
+   - Frontend: http://localhost:4200
    - Backend: http://localhost:3000
    - MongoDB: localhost:27017
 
@@ -77,6 +101,13 @@ Una aplicación full-stack completa desarrollada con **Node.js**, **Express**, *
 cd backend
 npm install
 npm run dev
+```
+
+#### Frontend
+```bash
+cd frontend
+npm install
+npm start
 ```
 
 #### MongoDB
@@ -203,7 +234,7 @@ src/app/
 
 ## 👥 Desarrollado por
 
-**Juan Diego Suarez Vargas** - 
+**Juan Diego Suarez Vargas** 
 
 ---
 
