@@ -1,38 +1,41 @@
-# Use official Node.js runtime as base image
-FROM node:18-alpine
+# -------- Builder stage: install ALL deps (incl. dev) and compile TS --------
+FROM node:20-alpine AS builder
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Install dependencies (dev + prod) to be able to run the TypeScript build
 COPY package*.json ./
+RUN npm ci
 
-# Install app dependencies
-RUN npm ci --only=production
-
-# Copy the rest of the application code
+# Copy source and build
 COPY . .
-
-# Build the TypeScript code
+# Ensure there is a build script in package.json: "build": "tsc -p tsconfig.json"
 RUN npm run build
 
-# Create a non-root user to run the application
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
+# -------- Runtime stage: only production deps and compiled output --------
+FROM node:20-alpine AS runtime
 
-# Change ownership of the app directory to nodejs user
-RUN chown -R nodejs:nodejs /usr/src/app
-USER nodejs
+ENV NODE_ENV=production
+WORKDIR /app
 
-# Expose the port the app runs on
+# Install ONLY production dependencies for a slimmer image
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy compiled code and any runtime assets
+COPY --from=builder /app/dist ./dist
+# If you need other files at runtime (e.g., prisma schema, public assets, healthcheck.js), copy them explicitly:
+# COPY --from=builder /app/prisma ./prisma
+# COPY --from=builder /app/healthcheck.js ./healthcheck.js
+
+# Drop privileges to a non-root user provided by the Node image
+USER node
+
 EXPOSE 3000
 
-# Define environment variable
-ENV NODE_ENV=production
+# Health check (uncomment if you have this file in the image)
+# HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+#   CMD node healthcheck.js || exit 1
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node healthcheck.js
-
-# Command to run the application
+# Start your app (expects "start" to run compiled JS, e.g., node dist/index.js)
 CMD ["npm", "start"]
