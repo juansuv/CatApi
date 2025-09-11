@@ -11,6 +11,10 @@ export const routes: Routes = [
     loadComponent: () => import('./views/cat-breeds/cat-breeds.component').then(m => m.CatBreedsComponent)
   },
   {
+    path: 'search',
+    loadComponent: () => import('./views/search/search.component').then(m => m.SearchComponent)
+  },
+  {
     path: '**',
     redirectTo: '/breeds'
   }

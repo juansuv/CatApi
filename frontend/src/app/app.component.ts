@@ -24,6 +24,12 @@ import { RouterOutlet, RouterModule, Router } from '@angular/router';
                 Breeds
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center" routerLink="/search" routerLinkActive="active">
+                <i class="fas fa-search me-2"></i>
+                Search
+              </a>
+            </li>
           </ul>
         </div>
       </div>
