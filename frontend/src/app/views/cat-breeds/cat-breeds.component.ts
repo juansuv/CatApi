@@ -47,7 +47,72 @@ import { CatBreed, CatImage } from '../../models/cat.models';
       </div>
     </div>
 
+    <!-- Selected Breed Details and Carousel -->
+    <div class="row mb-4" *ngIf="selectedBreed" #breedDetailsSection>
+      <div class="col-12">
+        <div class="card breed-detail-card">
+          <div class="card-body">
+            <h3 class="card-title">{{selectedBreed.name}}</h3>
+            <p class="card-text">{{selectedBreed.description}}</p>
 
+            <div class="row">
+              <div class="col-md-6">
+                <h5>Details</h5>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <strong>Origin:</strong> <span>{{selectedBreed.origin}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    <strong>Life Span:</strong> <span>{{selectedBreed.life_span}} years</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    <strong>Weight:</strong> <span>{{selectedBreed.weight.metric}} kg</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    <strong>Temperament:</strong> <span>{{selectedBreed.temperament}}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-md-6">
+                <h5>Image Gallery</h5>
+                <div *ngIf="loadingImages" class="text-center">
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <div id="breedCarousel" class="carousel slide" data-bs-ride="carousel" *ngIf="breedImages.length > 0">
+                  <div class="carousel-indicators">
+                    <button
+                      *ngFor="let image of breedImages; let i = index"
+                      type="button"
+                      data-bs-target="#breedCarousel"
+                      [attr.data-bs-slide-to]="i"
+                      [class.active]="i === 0">
+                    </button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div
+                      *ngFor="let image of breedImages; let i = index"
+                      class="carousel-item"
+                      [class.active]="i === 0">
+                      <img [src]="image.url" class="d-block w-100 cat-image" [alt]="selectedBreed.name">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#breedCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#breedCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Breeds Table -->
     <div class="row">
